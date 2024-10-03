@@ -1,34 +1,74 @@
 // Create a Department Structure
 
-let comapny = {
-    departments: [{
-        departmentName: 'Sales',
-        employees: [{
-            name: 'Sam',
-            salary: 120000,
-            subordinates: [{
-                name: 'Kirk',
-                salary: 80000,
+let company = {
+    departments: [
+        {
+            departmentName: 'Sales',
+            employees: [{
+                name: 'Sam',
+                salary: 120000,
                 subordinates: [{
+                    name: 'Kirk',
+                    salary: 80000,
+                    subordinates: [{
                         name: 'Jill',
                         salary: 50000,
                         subordinates: []
-                    }]},
+                    }]
+                },
                 {
-                name: 'Eli',
-                salary: 70000,
-                subordinates: []
-                }]},
+                    name: 'Eli',
+                    salary: 65000,
+                    subordinates: []
+                }]
+            }]
+        },
         {
-            name: 'Mary',
-            salary: 120000,
-            subordinates: [
-                {
-                name: 'Johnny',
-                salary: 65000,
-                subordinates: []
-                }, {
-                name: 'Madison',
-                salary: 65000,
-                subordinates: []    
-                }]}]}]};
+            departmentName: 'Marketing',
+            employees: [{
+                name: 'Mary',
+                salary: 120000,
+                subordinates: [
+                    {
+                        name: 'Johnny',
+                        salary: 65000,
+                        subordinates: []
+                    }, 
+                    {
+                        name: 'Madison',
+                        salary: 65000,
+                        subordinates: []    
+                    }
+                ]
+            }]
+        }
+    ]
+};
+
+console.log(company)
+
+// Create a Recursive Function to Calculate Total Salary for a Department
+
+function calculateDepartmentSalary(department) {
+    let totalSalary = 0
+
+    function addSalaries(employees) {
+        employees.forEach(employee => {
+            totalSalary += employee.salary;
+            if (employee.subordinates && employee.subordinates.length > 0) {
+                addSalaries(employee.subordinates);
+            }
+        }
+
+        )
+    }
+    addSalaries(department.employees);
+    return totalSalary;
+}
+
+company.departments.forEach(dept => {
+    let salary = calculateDepartmentSalary(dept);
+    console.log(`Total salary for ${dept.departmentName} department: $${salary}`);
+});
+
+
